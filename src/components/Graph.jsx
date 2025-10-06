@@ -2,21 +2,20 @@ import { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 import { getRelativePosition } from "chart.js/helpers";
 
-function Graph() {
+function Graph({ graphData, graphType }) {
   const chartRef = useRef(null);
   const myChartRef = useRef(null);
 
-  let temperatureData = [100, 20, 50, 55, 60];
-
   useEffect(() => {
+    <Graph />;
     const ctx = chartRef.current.getContext("2d");
 
     const data = {
       labels: ["0s", "10s", "20s", "30s", "40s"],
       datasets: [
         {
-          label: "Temperatura (°C)",
-          data: temperatureData,
+          label: graphType,
+          data: graphData,
           borderColor: "rgb(75, 192, 192)",
           borderWidth: 3,
           fill: false,
@@ -51,7 +50,7 @@ function Graph() {
           y: {
             title: {
               display: true,
-              text: "Temperatura (°C)",
+              text: graphType,
             },
             beginAtZero: true,
           },
@@ -59,14 +58,13 @@ function Graph() {
       },
     });
 
-    // Destruir gráfico ao desmontar
     return () => {
       myChartRef.current.destroy();
     };
-  }, [temperatureData]);
+  }, [graphData]);
 
   return (
-    <div className="w-[95%] h-[50%] bg-white rounded-xl shadow-lg p-4">
+    <div className="w-[30%] h-[50%] bg-white rounded-xl flex shadow-lg p-4">
       <canvas ref={chartRef}></canvas>
     </div>
   );
