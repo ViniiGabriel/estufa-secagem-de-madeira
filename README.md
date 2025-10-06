@@ -1,16 +1,65 @@
-# React + Vite
+# 🌲 Estufa de Secagem de Madeira
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicativo web desenvolvido para **monitoramento de uma estufa de secagem de madeira**, exibindo informações de **temperatura, umidade e pressão**, além de **gráficos interativos** que mostram a evolução dos dados ao longo do tempo.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ⚙️ Tecnologias utilizadas
 
-## React Compiler
+Este projeto foi construído com as seguintes tecnologias:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- ⚛️ **React** – biblioteca JavaScript para criação de interfaces dinâmicas  
+- ⚡ **Vite** – ambiente de desenvolvimento rápido e leve  
+- 📊 **Chart.js** – biblioteca de gráficos interativos  
+- 🎨 **Tailwind CSS** – framework CSS utilitário para estilização responsiva  
+- 🧱 **JavaScript (ES6+)**  
+- 🧩 **Componentes React personalizados** (`ContainerInformation`, etc.)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Como executar o projeto
+
+### 1️⃣ Clonar o repositório
+```bash
+git clone https://github.com/ViniiGabriel/estufa-secagem-de-madeira.git
+cd estufa-secagem-de-madeira
+```
+
+### 2️⃣ Instalar dependências
+```bash
+npm install
+# ou
+yarn install
+```
+
+### 3️⃣ Rodar o projeto em modo de desenvolvimento
+```bash
+npm run dev
+# ou
+yarn dev
+```
+
+Depois disso, abra o navegador no endereço indicado (geralmente `http://localhost:5173`).
+
+### 4️⃣ Gerar build de produção
+```bash
+npm run build
+# ou
+yarn build
+```
+
+---
+
+## 📊 Funcionalidades
+
+✅ Exibição de métricas principais:
+- Temperatura atual  
+- Umidade  
+- Pressão atmosférica  
+
+✅ Gráfico de linha interativo (Chart.js):
+- Mostra a variação de temperatura ao longo do tempo  
+- Captura o clique do usuário no gráfico e converte em coordenadas (x, y)  
+- Renderização responsiva  
+
+✅ Interface moderna e responsiva com Tailwind CSS  
