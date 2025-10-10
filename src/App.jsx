@@ -17,6 +17,7 @@ function App() {
         <ContainerInformation title="Pressão" information="1 atm" />
       </div>
 
+
       <div className="w-screen h-[100%] flex justify-center items-center gap-8">
         <Graph
           graphType={"Temperatura [°C]"}
