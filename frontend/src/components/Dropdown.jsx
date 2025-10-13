@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 export default function Dropdown({ options, onSelect }) {
-  const [selected, setSelected] = useState("Estufa 1");
+  const [selected, setSelected] = useState("Selecione uma estufa");
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSelect = (option) => {
