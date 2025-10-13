@@ -1,67 +1,88 @@
 import { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
-import { getRelativePosition } from "chart.js/helpers";
+import "chartjs-adapter-date-fns";
+import { ptBR } from "date-fns/locale";
+import { format } from "date-fns";
 
 function Graph({ graphData, graphType }) {
   const chartRef = useRef(null);
-  const myChartRef = useRef(null);
+  const chartInstanceRef = useRef(null);
 
   useEffect(() => {
-    <Graph />;
-    const ctx = chartRef.current.getContext("2d");
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+    }
 
-    const data = {
-      labels: ["0s", "10s", "20s", "30s", "40s"],
-      datasets: [
-        {
-          label: graphType,
-          data: graphData,
-          borderColor: "rgb(75, 192, 192)",
-          borderWidth: 3,
-          fill: false,
-          tension: 0.3,
-        },
-      ],
-    };
+    if (chartRef.current && graphData.length > 0) {
+      const ctx = chartRef.current.getContext("2d");
+      const lastFiveDataPoints = graphData.slice(-5);
 
-    myChartRef.current = new Chart(ctx, {
-      type: "line",
-      data,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        onClick: (event) => {
-          const canvasPosition = getRelativePosition(event, myChartRef.current);
-          const dataX = myChartRef.current.scales.x.getValueForPixel(
-            canvasPosition.x
-          );
-          const dataY = myChartRef.current.scales.y.getValueForPixel(
-            canvasPosition.y
-          );
-          console.log("Clique detectado:", { dataX, dataY });
+      const labels = lastFiveDataPoints.map((point) =>
+        format(new Date(point.x), "HH:mm")
+      );
+      const dataValues = lastFiveDataPoints.map((point) => point.y);
+
+      chartInstanceRef.current = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: graphType,
+              data: dataValues,
+              borderColor: "rgb(75, 192, 192)",
+              borderWidth: 3,
+              fill: false,
+              tension: 0.3,
+            },
+          ],
         },
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: "Tempo (s)",
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              type: "category",
+              title: {
+                display: true,
+                text: "Horário da Medição",
+              },
+            },
+            y: {
+              title: {
+                display: true,
+                text: graphType,
+              },
+              beginAtZero: false,
+              ticks: {
+                maxTicksLimit: 6,
+              },
             },
           },
-          y: {
-            title: {
-              display: true,
-              text: graphType,
+          plugins: {
+            legend: {
+              position: "top",
             },
-            beginAtZero: true,
+            tooltip: {
+              mode: "index",
+              intersect: false,
+            },
+          },
+          adapters: {
+            date: {
+              locale: ptBR,
+            },
           },
         },
-      },
-    });
+      });
+    }
 
     return () => {
-      myChartRef.current.destroy();
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.destroy();
+      }
     };
-  }, [graphData]);
+  }, [graphData, graphType]);
 
   return (
     <div className="w-[30%] h-[50%] bg-white rounded-xl flex shadow-lg p-4">

@@ -32,7 +32,6 @@ function App() {
     return <div className="text-center mt-20">Carregando dados...</div>;
   }
 
-  // resto do teu código permanece igual:
   return (
     <div className="w-screen h-screen bg-slate-200 flex flex-col items-center">
       <div className="w-full h-[60px] bg-slate-500 flex justify-center items-center">
