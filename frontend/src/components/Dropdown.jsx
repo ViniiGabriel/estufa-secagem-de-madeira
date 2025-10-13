@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 export default function Dropdown({ options, onSelect }) {
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState("Estufa 1");
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSelect = (option) => {
@@ -16,9 +17,11 @@ export default function Dropdown({ options, onSelect }) {
     <div className="relative w-56">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full bg-gray-100 border border-gray-300 rounded-lg px-4 py-2 text-left hover:bg-gray-200"
+        className="w-full bg-gray-100 border border-gray-300 rounded-lg px-4 py-2 flex justify-between items-center hover:bg-gray-200"
       >
-        {selected || "Selecione uma estufa ▼"}
+        <span>{selected}</span>
+
+        <ChevronDown className={isOpen ? "transform rotate-180" : ""} />
       </button>
 
       {isOpen && (
