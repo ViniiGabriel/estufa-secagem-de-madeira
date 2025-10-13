@@ -10,6 +10,8 @@ export default function Dropdown({ options, onSelect }) {
     onSelect(option);
   };
 
+  const allOptions = [...options, "Todas as estufas"];
+
   return (
     <div className="relative w-56">
       <button
@@ -21,7 +23,7 @@ export default function Dropdown({ options, onSelect }) {
 
       {isOpen && (
         <ul className="absolute mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-10">
-          {options.map((option) => (
+          {allOptions.map((option) => (
             <li
               key={option}
               onClick={() => handleSelect(option)}

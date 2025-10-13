@@ -3,14 +3,19 @@ import "./App.css";
 import ContainerInformation from "./components/ContainerInformation";
 import Dropdown from "./components/Dropdown";
 import Graph from "./components/Graph";
+import TableEstufas from "./components/TableEstufas";
 import estufas from "./data/estufas";
 
 function App() {
   const [estufaSelecionada, setEstufaSelecionada] = useState(estufas[0]);
 
   const handleSelectEstufa = (nomeEstufa) => {
-    const estufa = estufas.find((e) => e.nome === nomeEstufa);
-    setEstufaSelecionada(estufa);
+    if (nomeEstufa === "Todas as estufas") {
+      setEstufaSelecionada(null);
+    } else {
+      const estufa = estufas.find((e) => e.nome === nomeEstufa);
+      setEstufaSelecionada(estufa);
+    }
   };
 
   return (
@@ -28,35 +33,41 @@ function App() {
         />
       </div>
 
-      <div className="w-[95%] h-[17%] m-6 flex justify-around mb-[-100px]">
-        <ContainerInformation
-          title="Temperatura"
-          information={estufaSelecionada.temperatura}
-        />
-        <ContainerInformation
-          title="Umidade"
-          information={estufaSelecionada.umidade}
-        />
-        <ContainerInformation
-          title="Pressão"
-          information={estufaSelecionada.pressao}
-        />
-      </div>
+      {estufaSelecionada ? (
+        <>
+          <div className="w-[95%] h-[17%] m-6 flex justify-around mb-[-100px]">
+            <ContainerInformation
+              title="Temperatura"
+              information={estufaSelecionada.temperatura}
+            />
+            <ContainerInformation
+              title="Umidade"
+              information={estufaSelecionada.umidade}
+            />
+            <ContainerInformation
+              title="Pressão"
+              information={estufaSelecionada.pressao}
+            />
+          </div>
 
-      <div className="w-screen h-[100%] flex justify-center items-center gap-8">
-        <Graph
-          graphType={"Temperatura [°C]"}
-          graphData={estufaSelecionada.graficos.temperatura}
-        />
-        <Graph
-          graphType={"Umidade [%]"}
-          graphData={estufaSelecionada.graficos.umidade}
-        />
-        <Graph
-          graphType={"Pressão [atm]"}
-          graphData={estufaSelecionada.graficos.pressao}
-        />
-      </div>
+          <div className="w-screen h-[100%] flex justify-center items-center gap-8">
+            <Graph
+              graphType={"Temperatura [°C]"}
+              graphData={estufaSelecionada.graficos.temperatura}
+            />
+            <Graph
+              graphType={"Umidade [%]"}
+              graphData={estufaSelecionada.graficos.umidade}
+            />
+            <Graph
+              graphType={"Pressão [atm]"}
+              graphData={estufaSelecionada.graficos.pressao}
+            />
+          </div>
+        </>
+      ) : (
+        <TableEstufas estufas={estufas} />
+      )}
     </div>
   );
 }
