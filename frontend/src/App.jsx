@@ -1,16 +1,19 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ContainerInformation from "./components/ContainerInformation";
 import Dropdown from "./components/Dropdown";
 import Graph from "./components/Graph";
 import TableEstufas from "./components/TableEstufas";
 import { fetchEstufas } from "./data/estufas";
+import { FetchLotes } from "./data/FetchLotes";
 
 function App() {
   const [estufas, setEstufas] = useState([]);
   const [estufaSelecionada, setEstufaSelecionada] = useState(null);
   const [adminUser, setAdminUser] = useState(null); // estado do admin logado
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("adminUser");
@@ -20,13 +23,39 @@ function App() {
   }, []);
 
   useEffect(() => {
-    async function carregarEstufas() {
-      const dados = await fetchEstufas();
-      setEstufas(dados);
-      setEstufaSelecionada(dados[0] || null);
+    async function carregarDados() {
+      try {
+        // Busca os lotes (nomes/IDs)
+        const lotes = await FetchLotes();
+
+        // Busca as medições
+        const medicoes = await fetchEstufas();
+
+        // Junta os dados
+        const estufasComMedicoes = lotes.map((l) => {
+          const medicao = medicoes.find((m) => m.nome === l.nome_lote);
+
+          return {
+            id: l.lote_id,
+            nome: l.nome_lote,
+            temperatura: medicao ? medicao.temperatura : "—",
+            umidade: medicao ? medicao.umidade : "—",
+            pressao: medicao ? medicao.pressao : "—",
+            graficos: medicao
+              ? medicao.graficos
+              : { temperatura: [], umidade: [], pressao: [] },
+          };
+        });
+
+        setEstufas(estufasComMedicoes);
+        setEstufaSelecionada(estufasComMedicoes[0] || null);
+      } catch (error) {
+        console.error("Erro ao carregar dados das estufas:", error);
+      }
     }
-    carregarEstufas();
-  }, []);
+
+    carregarDados();
+  }, [location.state?.novaEstufa]);
 
   const handleSelectEstufa = (nomeEstufa) => {
     if (nomeEstufa === "Todas as estufas") {

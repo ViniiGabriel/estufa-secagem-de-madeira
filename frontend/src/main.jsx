@@ -7,14 +7,16 @@ import App from "./App.jsx";
 import Login from "./pages/Login.jsx";
 import AdmPage from "./pages/AdmPage.jsx";
 import Register from "./pages/Register.jsx";
+import CadastrarEstufa from "./pages/CadastrarEstufa.jsx";
 import PrivateRoute from "./components/PrivateRoute";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} /> {}
-        <Route path="/login" element={<Login />} /> {}
+        <Route path="/" element={<App />} />
+        <Route path="/login" element={<Login />} />
+
         <Route
           path="/admin"
           element={
@@ -28,6 +30,14 @@ createRoot(document.getElementById("root")).render(
           element={
             <PrivateRoute>
               <Register />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/cadastrar-estufa"
+          element={
+            <PrivateRoute>
+              <CadastrarEstufa />
             </PrivateRoute>
           }
         />
