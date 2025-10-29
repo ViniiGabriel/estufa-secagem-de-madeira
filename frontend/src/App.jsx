@@ -25,13 +25,10 @@ function App() {
   useEffect(() => {
     async function carregarDados() {
       try {
-        // Busca os lotes (nomes/IDs)
         const lotes = await FetchLotes();
 
-        // Busca as medições
         const medicoes = await fetchEstufas();
 
-        // Junta os dados
         const estufasComMedicoes = lotes.map((l) => {
           const medicao = medicoes.find((m) => m.nome === l.nome_lote);
 
