@@ -1,40 +1,50 @@
-const estufas = [
-  {
-    id: 1,
-    nome: "Estufa 1",
-    temperatura: "60 °C",
-    umidade: "14%",
-    pressao: "1 atm",
-    graficos: {
-      temperatura: [100, 20, 50, 55, 60],
-      umidade: [20, 40, 10, 70, 40],
-      pressao: [70, 10, 20, 55, 60],
-    },
-  },
-  {
-    id: 2,
-    nome: "Estufa 2",
-    temperatura: "45 °C",
-    umidade: "18%",
-    pressao: "0.9 atm",
-    graficos: {
-      temperatura: [40, 50, 45, 47, 46],
-      umidade: [30, 35, 40, 32, 30],
-      pressao: [90, 85, 88, 89, 87],
-    },
-  },
-  {
-    id: 3,
-    nome: "Estufa 3",
-    temperatura: "65 °C",
-    umidade: "20%",
-    pressao: "0.3 atm",
-    graficos: {
-      temperatura: [25, 10, 25, 57, 26],
-      umidade: [20, 55, 40, 22, 90],
-      pressao: [44, 80, 28, 20, 17],
-    },
-  },
-];
+export async function fetchEstufas() {
+  try {
+    const response = await fetch("http://localhost:5000/api/leituras");
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    const chronologicalData = data.reverse();
+    const estufasMap = {};
 
-export default estufas;
+    chronologicalData.forEach((row) => {
+      const nome = row.nome_lote || `Estufa ${row.sensor_id}`;
+      const temp = parseFloat(row.temp_c) || 0;
+      const umid = parseFloat(row.umidade_pct) || 0;
+      const press = Math.random() * 1 + 0.5;
+      const timestamp = new Date(row.timestamp);
+
+      if (!estufasMap[nome]) {
+        estufasMap[nome] = {
+          id: row.sensor_id,
+          nome: nome,
+          temperatura: "0 °C",
+          umidade: "0%",
+          pressao: "0 atm",
+          graficos: {
+            temperatura: [],
+            umidade: [],
+            pressao: [],
+          },
+        };
+      }
+
+      estufasMap[nome].graficos.temperatura.push({ x: timestamp, y: temp });
+      estufasMap[nome].graficos.umidade.push({ x: timestamp, y: umid });
+      estufasMap[nome].graficos.pressao.push({
+        x: timestamp,
+        y: parseFloat(press),
+      });
+
+      estufasMap[nome].temperatura = `${temp.toFixed(1)} °C`;
+      estufasMap[nome].umidade = `${umid.toFixed(1)}%`;
+      estufasMap[nome].pressao = `${press.toFixed(2)} atm`;
+    });
+
+    return Object.values(estufasMap);
+  } catch (error) {
+    console.error("Erro ao buscar estufas:", error);
+    return [];
+  }
+}
