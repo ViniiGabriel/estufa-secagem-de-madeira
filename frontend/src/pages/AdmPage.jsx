@@ -45,6 +45,15 @@ function AdmPage() {
             Cadastrar Novo Admin
           </button>
         </div>
+
+        <div className="flex flex-wrap justify-center gap-8 mt-8">
+          <button
+            onClick={() => navigate("/sensores")}
+            className="bg-slate-500 hover:bg-slate-400 text-white px-8 py-3 rounded-2xl shadow-md font-semibold text-lg transition"
+          >
+            Ver Sensores
+          </button>
+        </div>
       </div>
     </div>
   );

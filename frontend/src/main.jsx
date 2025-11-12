@@ -9,6 +9,8 @@ import AdmPage from "./pages/AdmPage.jsx";
 import Register from "./pages/Register.jsx";
 import CadastrarEstufa from "./pages/CadastrarEstufa.jsx";
 import PrivateRoute from "./components/PrivateRoute";
+import CadastrarSensor from "./pages/CadastrarSensor.jsx";
+import SensoresList from "./pages/SensoresList.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -38,6 +40,24 @@ createRoot(document.getElementById("root")).render(
           element={
             <PrivateRoute>
               <CadastrarEstufa />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/cadastrar-sensor"
+          element={
+            <PrivateRoute>
+              <CadastrarSensor />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/sensores"
+          element={
+            <PrivateRoute>
+              <SensoresList />
             </PrivateRoute>
           }
         />
