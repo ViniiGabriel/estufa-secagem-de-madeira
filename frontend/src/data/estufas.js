@@ -12,7 +12,7 @@ export async function fetchEstufas() {
       const nome = row.nome_lote || `Estufa ${row.sensor_id}`;
       const temp = parseFloat(row.temp_c) || 0;
       const umid = parseFloat(row.umidade_pct) || 0;
-      const press = Math.random() * 1 + 0.5;
+      const bateria = parseFloat(row.bateria_pct) || 0;
       const timestamp = new Date(row.timestamp);
 
       if (!estufasMap[nome]) {
@@ -21,25 +21,22 @@ export async function fetchEstufas() {
           nome: nome,
           temperatura: "0 °C",
           umidade: "0%",
-          pressao: "0 atm",
+          bateria: "0%",
           graficos: {
             temperatura: [],
             umidade: [],
-            pressao: [],
+            bateria: [],
           },
         };
       }
 
       estufasMap[nome].graficos.temperatura.push({ x: timestamp, y: temp });
       estufasMap[nome].graficos.umidade.push({ x: timestamp, y: umid });
-      estufasMap[nome].graficos.pressao.push({
-        x: timestamp,
-        y: parseFloat(press),
-      });
+      estufasMap[nome].graficos.bateria.push({ x: timestamp, y: bateria });
 
       estufasMap[nome].temperatura = `${temp.toFixed(1)} °C`;
       estufasMap[nome].umidade = `${umid.toFixed(1)}%`;
-      estufasMap[nome].pressao = `${press.toFixed(2)} atm`;
+      estufasMap[nome].bateria = `${bateria.toFixed(1)}%`;
     });
 
     return Object.values(estufasMap);

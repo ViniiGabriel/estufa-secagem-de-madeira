@@ -10,7 +10,7 @@ import { FetchLotes } from "./data/FetchLotes";
 function App() {
   const [estufas, setEstufas] = useState([]);
   const [estufaSelecionada, setEstufaSelecionada] = useState(null);
-  const [adminUser, setAdminUser] = useState(null); // estado do admin logado
+  const [adminUser, setAdminUser] = useState(null);
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -26,7 +26,6 @@ function App() {
     async function carregarDados() {
       try {
         const lotes = await FetchLotes();
-
         const medicoes = await fetchEstufas();
 
         const estufasComMedicoes = lotes.map((l) => {
@@ -37,10 +36,10 @@ function App() {
             nome: l.nome_lote,
             temperatura: medicao ? medicao.temperatura : "—",
             umidade: medicao ? medicao.umidade : "—",
-            pressao: medicao ? medicao.pressao : "—",
+            bateria: medicao ? medicao.bateria : "—",
             graficos: medicao
               ? medicao.graficos
-              : { temperatura: [], umidade: [], pressao: [] },
+              : { temperatura: [], umidade: [], bateria: [] },
           };
         });
 
@@ -121,8 +120,8 @@ function App() {
               information={estufaSelecionada.umidade}
             />
             <ContainerInformation
-              title="Pressão"
-              information={estufaSelecionada.pressao}
+              title="Bateria"
+              information={estufaSelecionada.bateria}
             />
           </div>
 
@@ -136,8 +135,8 @@ function App() {
               graphData={estufaSelecionada.graficos.umidade}
             />
             <Graph
-              graphType={"Pressão [atm]"}
-              graphData={estufaSelecionada.graficos.pressao}
+              graphType={"Bateria [%]"}
+              graphData={estufaSelecionada.graficos.bateria}
             />
           </div>
         </>

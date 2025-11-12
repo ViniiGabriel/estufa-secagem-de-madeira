@@ -10,7 +10,6 @@ function CadastrarEstufa() {
     try {
       const response = await Axios.post("http://localhost:5000/api/lotes", {
         nome_lote: values.nome,
-        endereco_mac: values.endereco_mac,
       });
 
       alert("Estufa cadastrada com sucesso!");
@@ -25,13 +24,6 @@ function CadastrarEstufa() {
 
   const validationSchema = yup.object().shape({
     nome: yup.string().required("Nome da estufa é obrigatório"),
-    endereco_mac: yup
-      .string()
-      .matches(
-        /^([0-9A-Fa-f]{2}:){5}([0-9A-Fa-f]{2})$/,
-        "MAC inválido (ex: AA:BB:CC:DD:EE:FF)"
-      )
-      .required("Endereço MAC é obrigatório"),
   });
 
   return (
@@ -42,7 +34,7 @@ function CadastrarEstufa() {
         </h1>
 
         <Formik
-          initialValues={{ nome: "", endereco_mac: "" }}
+          initialValues={{ nome: "" }}
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
         >
@@ -59,22 +51,6 @@ function CadastrarEstufa() {
               <ErrorMessage
                 component="span"
                 name="nome"
-                className="text-sm text-red-500 mt-1"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-medium text-gray-700">
-                Endereço MAC
-              </label>
-              <Field
-                name="endereco_mac"
-                placeholder="Ex: AA:BB:CC:DD:EE:FF"
-                className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-              <ErrorMessage
-                component="span"
-                name="endereco_mac"
                 className="text-sm text-red-500 mt-1"
               />
             </div>
