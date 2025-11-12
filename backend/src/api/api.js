@@ -3,7 +3,6 @@ const express = require("express");
 function createApiRouter(pool) {
   const router = express.Router();
 
-  // ✅ Rota para listar todos os lotes
   router.get("/lotes", async (req, res) => {
     try {
       const { rows } = await pool.query(
@@ -16,7 +15,6 @@ function createApiRouter(pool) {
     }
   });
 
-  // ✅ Rota para buscar últimas leituras
   router.get("/leituras", async (req, res) => {
     try {
       const query = `
@@ -42,34 +40,15 @@ function createApiRouter(pool) {
     }
   });
 
-  // ✅ Rota para cadastrar novo lote
   router.post("/lotes", async (req, res) => {
-    const { nome_lote, endereco_mac } = req.body;
+    const { nome_lote } = req.body;
 
     if (!nome_lote || nome_lote.trim() === "") {
       return res.status(400).json({ error: "O nome da estufa é obrigatório." });
     }
-    if (!endereco_mac || endereco_mac.trim() === "") {
-      return res.status(400).json({ error: "O endereço MAC é obrigatório." });
-    }
-
-    const macRegex = /^([0-9A-Fa-f]{2}:){5}([0-9A-Fa-f]{2})$/;
-    if (!macRegex.test(endereco_mac)) {
-      return res.status(400).json({ error: "Endereço MAC inválido." });
-    }
 
     try {
-      const existeMac = await pool.query(
-        "SELECT * FROM lotes WHERE endereco_mac = $1",
-        [endereco_mac]
-      );
-
-      if (existeMac.rows.length > 0) {
-        return res
-          .status(409)
-          .json({ error: "Esse endereço MAC já está cadastrado." });
-      }
-
+      // 🔹 Gera novo ID incremental no formato L001, L002...
       const ultimoLoteResult = await pool.query(
         "SELECT lote_id FROM lotes ORDER BY lote_id DESC LIMIT 1"
       );
@@ -84,15 +63,11 @@ function createApiRouter(pool) {
       }
 
       const query = `
-        INSERT INTO lotes (lote_id, nome_lote, endereco_mac)
-        VALUES ($1, $2, $3)
+        INSERT INTO lotes (lote_id, nome_lote)
+        VALUES ($1, $2)
         RETURNING *;
       `;
-      const { rows } = await pool.query(query, [
-        novoLoteId,
-        nome_lote,
-        endereco_mac,
-      ]);
+      const { rows } = await pool.query(query, [novoLoteId, nome_lote]);
 
       res.status(201).json(rows[0]);
     } catch (err) {
@@ -101,7 +76,6 @@ function createApiRouter(pool) {
     }
   });
 
-  // 👇 ESSA LINHA É FUNDAMENTAL
   return router;
 }
 
