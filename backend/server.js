@@ -26,6 +26,11 @@ const createApiRouter = require("./src/api/api.js");
 const apiRouter = createApiRouter(pool);
 app.use("/api", apiRouter);
 
+// ✅ Adiciona aqui o router de sensores
+const createSensoresRouter = require("./src/sensoresApi/sensores.js");
+const sensoresRouter = createSensoresRouter(pool);
+app.use("/api/sensores", sensoresRouter);
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
