@@ -41,6 +41,17 @@ services:
       MQTT_HOST: mqtt://mqtt
     command: npm start
 
+  frontend:
+    build: ./frontend
+    container_name: frontend-service
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
 volumes:
   postgres_data:
 

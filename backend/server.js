@@ -7,10 +7,10 @@ app.use(cors());
 app.use(express.json());
 
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "estufa",
-  password: "1010",
+  user: process.env.DB_USER || "myuser",
+  host: process.env.DB_HOST || "localhost",
+  database: process.env.DB_DATABASE || "mydatabase",
+  password: process.env.DB_PASSWORD || "mypassword",
   port: 5432,
 });
 
