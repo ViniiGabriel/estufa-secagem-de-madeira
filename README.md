@@ -80,8 +80,8 @@ Toda a infraestrutura da aplicação (Backend, Frontend, Banco de Dados e Broker
 1.  Clone este repositório:
 
     ```bash
-    git clone [[URL_DO_SEU_REPOSITORIO](https://github.com/ViniiGabriel/estufa-secagem-de-madeira/)]
-    cd [estufa-secagem-de-madeira]
+    git clone https://github.com/ViniiGabriel/estufa-secagem-de-madeira/
+    cd estufa-secagem-de-madeira
     ```
 
 2.  (Se aplicável) Crie os arquivos de configuração necessários, como o `mosquitto.conf` ou um `.env` para o backend, caso não estejam no repositório.
@@ -94,8 +94,7 @@ Toda a infraestrutura da aplicação (Backend, Frontend, Banco de Dados e Broker
 
 4.  Após a conclusão, os serviços estarão disponíveis:
 
-      * **Frontend:** `http://localhost:5173` (ou a porta definida no compose)
-      * **Backend:** `http://localhost:[PORTA_BACKEND]` (se estiver exposta)
+      * **Frontend:** `http://localhost:5173`
       * **Broker MQTT:** `localhost:1883`
       * **Banco de Dados:** `localhost:5432`
 
