@@ -1,6 +1,6 @@
 # INA219
 
-![[Pasted image 20251127172331.png]]
+<img src="Anexos/INA219_image.png" width="800"/>
 
 O INA219 é um módulo de medição de potência e corrente que utiliza uma interface digital I2C para comunicação. Ele é amplamente usado em projetos de eletrônica e IoT para monitorar o consumo de energia de um circuito.
 

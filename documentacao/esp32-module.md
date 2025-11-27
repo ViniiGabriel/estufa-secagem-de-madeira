@@ -2,7 +2,7 @@
 
 # Esp-WROOM-32
 
-![[Pasted image 20251127171457.png]]
+<img src="Anexos/ESP32_image.png" width="800"/>
 
 O ESP32 é um microcontrolador de baixo custo e alta integração, desenvolvido pela Espressif Systems. Ele é a escolha ideal para projetos escolares de Internet das Coisas (IoT) devido aos seus recursos integrados de comunicação Wi-Fi e Bluetooth, que permitem a fácil conexão com a internet e outros dispositivos.
 

@@ -1,6 +1,6 @@
 # LM2596
 
-<img src=/>
+<img src="Anexos/LM2596.png" width="800"/>
 
 O LM2596 é um módulo conversor DC-DC Step-Down, utilizado para reduzir uma tensão de entrada mais alta para uma tensão de saída mais baixa e estável. É essencial para alimentar circuitos eletrônicos que necessitam de uma tensão específica e mais baixa do que a fonte de alimentação disponível.
 
