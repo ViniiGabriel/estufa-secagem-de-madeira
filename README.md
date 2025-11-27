@@ -2,20 +2,6 @@
 
 Sistema completo de monitoramento e controle para estufas de secagem de madeira, desenvolvido com arquitetura IoT que integra sensores, comunicação MQTT, backend Node.js e interface web React.
 
-## 📋 Índice
-
-- [Sobre o Projeto](#sobre-o-projeto)
-- [Funcionalidades](#funcionalidades)
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Arquitetura do Sistema](#arquitetura-do-sistema)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
-- [Configuração](#configuração)
-- [Uso](#uso)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [API Endpoints](#api-endpoints)
-
-
 ## 🎯 Sobre o Projeto
 
 Este projeto foi desenvolvido para monitorar e controlar estufas de secagem de madeira de forma automatizada. O sistema permite:
