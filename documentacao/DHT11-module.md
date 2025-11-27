@@ -1,5 +1,6 @@
 # DHT11
-![[Pasted image 20251127172506.png]]
+
+<img src="documentacao/Anexos/DHT11_image.png" width="800"/>
 
 O **DHT11** é um sensor digital de baixo custo e fácil utilização, projetado para medir a temperatura e a umidade relativa do ambiente. Uma opção popular para projetos escolares e amadores que necessitam coletar dados climáticos básicos.
 
