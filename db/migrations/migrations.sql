@@ -1,45 +1,78 @@
--- Cria um schema para organização
-CREATE SCHEMA IF NOT EXISTS empresa;
-
--- Tabela de estufas
-CREATE TABLE IF NOT EXISTS empresa.estufas (
-  estufa_id SERIAL PRIMARY KEY,
-  nome_estufa VARCHAR(100) NOT NULL,
-  localizacao VARCHAR(255),
-  data_instalacao TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+-- ========= 1. CRIAÇÃO DAS TABELAS =========
+-- Cria a tabela para os lotes
+CREATE TABLE public.lotes (
+    lote_id character varying(255) NOT NULL,
+    nome_lote character varying(255),
+    data_criacao timestamp with time zone DEFAULT now()
 );
 
--- Tabela de sensores
-CREATE TABLE IF NOT EXISTS empresa.sensores (
-  sensor_id VARCHAR(255) PRIMARY KEY,
-  estufa_id INT REFERENCES empresa.estufas(estufa_id) ON DELETE CASCADE,
-  tipo_sensor VARCHAR(50) DEFAULT 'ambiental',
-  posicao VARCHAR(50), -- por ex: "norte", "sul", "topo"
-  data_cadastro TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+-- Cria a tabela para as medições dos sensores
+CREATE TABLE public.medicoes (
+    medicao_id integer NOT NULL,
+    sensor_id character varying(255) NOT NULL,
+    lote_id character varying(255),
+    "timestamp" timestamp with time zone NOT NULL,
+    temp_c numeric(5,2),
+    umidade_pct numeric(5,2),
+    bateria_pct numeric(5,2),
+    status character varying(50)
 );
 
--- Tabela de lotes de madeira
-CREATE TABLE IF NOT EXISTS empresa.lotes (
-  lote_id VARCHAR(255) PRIMARY KEY,
-  estufa_id INT REFERENCES empresa.estufas(estufa_id) ON DELETE SET NULL,
-  descricao VARCHAR(255),
-  data_inicio TIMESTAMP WITH TIME ZONE NOT NULL,
-  data_fim TIMESTAMP WITH TIME ZONE
+-- Cria a tabela para os utilizadores
+CREATE TABLE public.users (
+    id_user integer NOT NULL,
+    username text NOT NULL,
+    email text NOT NULL,
+    password text NOT NULL
 );
 
--- Tabela de leituras de sensores
-CREATE TABLE IF NOT EXISTS empresa.leituras (
-  leitura_id SERIAL PRIMARY KEY,
-  sensor_id VARCHAR(255) REFERENCES empresa.sensores(sensor_id) ON DELETE CASCADE,
-  lote_id VARCHAR(255) REFERENCES empresa.lotes(lote_id) ON DELETE SET NULL,
-  timestamp TIMESTAMP WITH TIME ZONE NOT NULL,
-  temperatura_c NUMERIC(5,2),
-  umidade_pct NUMERIC(5,2),
-  bateria_pct NUMERIC(5,2),
-  status VARCHAR(50),
-  CONSTRAINT leitura_unica UNIQUE(sensor_id, timestamp)
-);
 
--- Índices para performance de busca por tempo e sensor
-CREATE INDEX idx_leituras_sensor_timestamp ON empresa.leituras(sensor_id, timestamp);
+-- ========= 2. CONFIGURAÇÃO DE SEQUÊNCIAS (AUTO-INCREMENTO) =========
+-- Configura o auto-incremento para medicoes.medicao_id
+CREATE SEQUENCE public.medicoes_medicao_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
+ALTER SEQUENCE public.medicoes_medicao_id_seq OWNED BY public.medicoes.medicao_id;
+
+ALTER TABLE ONLY public.medicoes ALTER COLUMN medicao_id SET DEFAULT nextval('public.medicoes_medicao_id_seq'::regclass);
+
+
+-- Configura o auto-incremento para users.id_user
+CREATE SEQUENCE public.users_id_user_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE public.users_id_user_seq OWNED BY public.users.id_user;
+
+ALTER TABLE ONLY public.users ALTER COLUMN id_user SET DEFAULT nextval('public.users_id_user_seq'::regclass);
+
+
+-- ========= 3. ADIÇÃO DE CONSTRAINTS (CHAVES) =========
+-- Chave Primária (PK) para lotes
+ALTER TABLE ONLY public.lotes
+    ADD CONSTRAINT lotes_pkey PRIMARY KEY (lote_id);
+
+-- Chave Primária (PK) para medicoes
+ALTER TABLE ONLY public.medicoes
+    ADD CONSTRAINT medicoes_pkey PRIMARY KEY (medicao_id);
+
+-- Chave Primária (PK) para users
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id_user);
+
+-- Constraint Única (UNIQUE) para o email dos users
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT unique_email UNIQUE (email);
+
+-- Chave Estrangeira (FK) ligando medicoes.lote_id a lotes.lote_id
+ALTER TABLE ONLY public.medicoes
+    ADD CONSTRAINT medicoes_lote_id_fkey FOREIGN KEY (lote_id) REFERENCES public.lotes(lote_id);
