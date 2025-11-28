@@ -304,21 +304,11 @@ estufa-secagem-de-madeira/
 <p align="justify">
 Durante a implementação do projeto encontramos algumas dificuldades que merecem menção:
 
-- **Leitura de bateria simulada**  
-  A leitura do nível de bateria está sendo simulada no firmware, pois não há um sensor específico implementado para esta medição.  
-  _Solução:_ Para implementação real, seria necessário adicionar um circuito divisor de tensão ou um sensor de bateria dedicado ao ESP32.
-
-- **Leitura de pH não implementada**  
-  O código do firmware inclui uma variável para pH, mas a leitura está sendo simulada com valores aleatórios.  
-  _Solução:_ Seria necessário conectar um sensor de pH adequado ao ESP32 e implementar a leitura real no código.
 
 - **Configuração manual de credenciais**  
   As credenciais de WiFi e MQTT precisam ser configuradas manualmente no código do firmware antes do upload.  
   _Solução futura:_ Implementar um portal de configuração via WiFi (WiFiManager) para facilitar a configuração sem necessidade de recompilar o código.
 
-- **Broker MQTT público no código**  
- O código atual utiliza um broker MQTT público (broker.hivemq.com) como padrão, o que não é recomendado para produção.  
- _Solução:_ Configurar um broker MQTT local usando o Mosquitto via Docker Compose e atualizar o código do firmware para usar o IP local do servidor.
 </p>
 
 ---
