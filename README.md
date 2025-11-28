@@ -36,25 +36,34 @@ Os dados coletados localmente pelo ESP32 através do sensor DHT11 são enviados 
 ## Esquema de conexão
 
 <div align="center">
-    <img src="README.assets/esquema.png" alt="Esquema">
+    <img src="documentacao/Anexos/esquematico.png" alt="Esquema de Conexão Completo">
 </div>
 
-Este diagrama mostra a ligação do sensor DHT11 à placa microcontroladora ESP32. A alimentação de todos os componentes é feita com 3.3V.
+Este diagrama mostra a ligação completa dos componentes, incluindo o ESP32, o sensor DHT11, o módulo de medição INA219, o conversor DC-DC LM2596 e a fonte de alimentação.
 
 ### 📦 Componentes Conectados:
 
-#### 1. DHT11 (Sensor de Temperatura e Umidade)
+#### 1. [DHT11](documentacao/DHT11-module.md) (Sensor de Temperatura e Umidade)
 
 - Alimentado com **3.3V**
 - Pino de dados conectado ao **GPIO33**
-- Resistor de **10kΩ pull-up** entre o pino de dados e 3.3V
 - GND conectado ao GND do ESP32
 
-#### 2. ESP32
+#### 2. [ESP32](documentacao/esp32-module.md)
 
 - Microcontrolador principal responsável pela coleta de dados
 - Conectividade WiFi para comunicação com o broker MQTT
-- Alimentação via USB ou fonte externa (5V)
+- Alimentação VIN do esp conectado ao Vin+ do [INA219](documentacao/INA219-module.md)
+
+#### 3. [INA219](documentacao/INA219-module.md) (Sensor de Corrente e Tensão)
+- Utilizado para monitorar o consumo de energia.
+- Comunica-se com o ESP32 via interface **I2C**.
+- Mede corrente e tensão para calcular a potência.
+
+#### 4. [LM2596](documentacao/LM2596-module.md) (Conversor DC-DC)
+- Reduz a tensão de entrada para alimentar os componentes.
+- Converte a tensão de uma fonte externa (e.g., 8,2V) para **5V**.
+- Garante uma alimentação estável para o ESP32 e sensores.
 
 ---
 
